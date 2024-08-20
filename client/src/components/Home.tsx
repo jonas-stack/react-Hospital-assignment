@@ -24,7 +24,7 @@ export default function Home() {
         <div>
             <h1 className="menu-title text-5xl m-5">The Hospital App</h1>
             <ButtonContainer>
-                <Button onClick={handleButtonClick} label="Patient Page" />
+                <Button onClick={handleButtonClick}>Patient Page</Button>
             </ButtonContainer>
         </div>
     );

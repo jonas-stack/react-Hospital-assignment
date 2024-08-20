@@ -1,6 +1,7 @@
 // client/src/components/Patients/PatientList.tsx
+import React, { useEffect, useState } from "react";
 import { Api } from "../../Api";
-import { useEffect, useState } from "react";
+import AddPatientForm from "./AddPatientForm";
 
 export const PatientList = () => {
     const [patients, setPatients] = useState([]);
@@ -14,6 +15,8 @@ export const PatientList = () => {
 
     return (
         <div>
+            <h1>Patient List</h1>
+            <AddPatientForm />
             {patients.map((patient) => (
                 <div key={patient.id}>
                     {patient.name}
