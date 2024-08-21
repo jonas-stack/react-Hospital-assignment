@@ -4,9 +4,6 @@ import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import { Api } from "../../Api";
 import AddPatientForm from "./AddPatientForm";
-import RemovePatient from "./RemovePatient";
-import UpdatePatient from "./UpdatePatient.tsx";
-import {Link} from "react-router-dom";
 import Card from "../Utilities/Cards.tsx";
 
 export const PatientList = () => {
@@ -22,13 +19,7 @@ export const PatientList = () => {
     return (
         <div>
             <h1>Patient List</h1>
-            <AddPatientForm />
-            {patients.map((patient) => (
-                <div key={patient.id}>
-                    <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
-                </div>
-            ))}
-            <div>
+            <div className="patient-list">
                 {patients.map(patient => (
                     <Card
                         key={patient.id}
@@ -38,6 +29,7 @@ export const PatientList = () => {
                     />
                 ))}
             </div>
+            <AddPatientForm />
         </div>
     );
 };

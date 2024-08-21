@@ -1,11 +1,12 @@
 // client/src/components/Patients/UpdatePatient.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import TextFields from "../Utilities/TextField.tsx";
 import Button from "../Utilities/Button.tsx";
 import { apiClient } from "../../apiClient.ts";
 import { Patients } from "../../Api.ts";
+import { useNavigate } from "react-router-dom";
 
 interface UpdatePatientFormProps {
     patient: Patients;
@@ -14,6 +15,12 @@ interface UpdatePatientFormProps {
 const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
     const [patients, setPatients] = useAtom(patientsAtom);
     const [newName, setNewName] = useState(patient.name);
+    const [isModified, setIsModified] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        setIsModified(newName !== patient.name);
+    }, [newName, patient.name]);
 
     const handlePatientUpdate = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -47,7 +54,19 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                     <label>New name:</label>
                     <TextFields value={newName} onChange={setNewName} />
                 </div>
-                <Button type="submit">Update Patient</Button>
+                <Button
+                    type="submit"
+                    disabled={!isModified}
+                    className={!isModified ? "button-disabled" : ""}
+                >
+                    Update Patient
+                </Button>
+                <Button
+                    type="button"
+                    onClick={() => navigate('/patients')}
+                >
+                    Go Back To Patients List
+                </Button>
             </form>
         </div>
     );

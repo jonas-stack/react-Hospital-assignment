@@ -9,17 +9,16 @@ import { useAtom } from "jotai";
 import { ThemeAtom } from "../atoms/ThemeAtom.tsx";
 import { PatientList } from "./Patients/PatientList.tsx";
 import Breadcrumbs from "./Utilities/Breadcrumbs.tsx";
-import { generateBreadcrumbs} from "./Utilities/generateBreadcrumbs.tsx";
+import { generateBreadcrumbs } from "./Utilities/generateBreadcrumbs.tsx";
 import PatientDetail from "./Patients/PatientDetail.tsx";
 
-
 const App = () => {
-    const [theme, setTheme] = useAtom(ThemeAtom);
+    const [theme] = useAtom(ThemeAtom);  // Use theme from atom
     const location = useLocation();
 
     useEffect(() => {
         localStorage.setItem('theme', theme);
-        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.setAttribute('data-theme', theme); // Apply theme to root element
     }, [theme]);
 
     return (

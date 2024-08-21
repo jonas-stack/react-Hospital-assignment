@@ -1,5 +1,7 @@
 // client/src/components/Utilities/Button.tsx
 import React, { ReactNode } from "react";
+import { useAtom } from "jotai";
+import { ThemeAtom } from "../../atoms/ThemeAtom.tsx";
 
 interface ButtonProps {
     onClick?: () => void;
@@ -10,8 +12,10 @@ interface ButtonProps {
 }
 
 const Button: React.FC<ButtonProps> = ({ onClick, className = "", disabled = false, type = "button", children }) => {
-    const baseClass = "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded";
-    const combinedClass = `${baseClass} ${className}`;
+    const [theme] = useAtom(ThemeAtom);
+
+    // Combine base button class with theme-specific class
+    const combinedClass = `btn ${theme} ${className}`;
 
     return (
         <button

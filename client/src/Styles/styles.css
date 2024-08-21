@@ -33,3 +33,17 @@ code {
     content: "";
 }
 
+/* client/src/components/Patients/PatientList.css */
+.patient-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px; /* Adjust the gap between cards as needed */
+}
+
+.patient-card {
+    flex: 1 1 calc(33.333% - 16px); /* Adjust the percentage to control the number of cards per row */
+    box-sizing: border-box;
+}
+
+
+
