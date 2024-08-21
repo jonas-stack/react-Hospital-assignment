@@ -1,3 +1,4 @@
+// client/src/components/Patients/UpdatePatient.tsx
 import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
@@ -6,6 +7,7 @@ import Button from "../Utilities/Button";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
 import { useNavigate } from "react-router-dom";
+import RemovePatient from "./RemovePatient";
 
 interface UpdatePatientFormProps {
     patient: Patients;
@@ -15,7 +17,6 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
     const [patients, setPatients] = useAtom(patientsAtom);
     const [newName, setNewName] = useState(patient.name);
     const [isModified, setIsModified] = useState(false);
-    const navigate = useNavigate();
 
     useEffect(() => {
         setIsModified(newName !== patient.name);
@@ -46,26 +47,24 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
     };
 
     return (
-        <div>
-            <h1>Update Patient</h1>
+        <div className="flex flex-col">
+            <br/>
             <form onSubmit={handlePatientUpdate}>
                 <div>
                     <label>New name:</label>
                     <TextFields value={newName} onChange={setNewName} />
                 </div>
-                <Button
-                    type="submit"
-                    disabled={!isModified}
-                    className={!isModified ? "button-disabled" : ""}
-                >
-                    Update Patient
-                </Button>
-                <Button
-                    type="button"
-                    onClick={() => navigate('/patients')}
-                >
-                    Go Back To Patients List
-                </Button>
+                <br/>
+                <div className="flex flex-row gap-4">
+                    <Button
+                        type="submit"
+                        disabled={!isModified}
+                        className={!isModified ? "button-disabled" : ""}
+                    >
+                        Update Patient
+                    </Button>
+                    <RemovePatient patient={patient} />
+                </div>
             </form>
         </div>
     );

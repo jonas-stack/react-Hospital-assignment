@@ -1,12 +1,14 @@
+// client/src/components/Patients/PatientDetail.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom } from "jotai";
 import { apiClient } from "../../apiClient";
-import Card from "../Utilities/Cards";
 import { Patients } from "../../Api";
 import UpdatePatientForm from "./UpdatePatient";
-import RemovePatient from "./RemovePatient";
 import { patientsAtom } from "../../atoms/PatientsAtom";
+import Card from "../Utilities/Cards.tsx";
+import Button from "../Utilities/Button";
+import { useNavigate } from "react-router-dom";
 
 const PatientDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -14,6 +16,7 @@ const PatientDetail: React.FC = () => {
     const [patient, setPatient] = useState<Patients | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPatient = async () => {
@@ -54,18 +57,23 @@ const PatientDetail: React.FC = () => {
     if (!patient) return <div>Patient not found</div>;
 
     return (
-        <div>
-            <Card
-                title="Patient Details"
-                content={
-                    <div>
-                        <p><strong>Name:</strong> {patient.name}</p>
-                        <UpdatePatientForm patient={patient} />
-                        <RemovePatient patient={patient} />
-                    </div>
-                }
-            />
-        </div>
+        <Card
+            title="Patient Details"
+            content={
+                <div className="flex flex-col" style={{ display: 'flex', gap: '16px', padding: '16px' }}>
+                    <p><strong>Name:</strong> {patient.name}</p>
+                    <br/>
+                    <UpdatePatientForm patient={patient} />
+                    <br/>
+                    <Button
+                        type="button"
+                        onClick={() => navigate('/patients')}
+                    >
+                        Go Back To Patients List
+                    </Button>
+                </div>
+            }
+        />
     );
 };
 

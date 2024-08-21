@@ -8,6 +8,12 @@ import { apiClient } from "../../apiClient";
 const AddPatientForm: React.FC = () => {
     const [name, setName] = useState("");
     const [patients, setPatients] = useAtom(patientsAtom);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+    const handleNameChange = (value: string) => {
+        setName(value);
+        setIsButtonDisabled(value.trim() === "");
+    };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -16,6 +22,7 @@ const AddPatientForm: React.FC = () => {
             setPatients(prevPatients => [...prevPatients, response.data[0]]);
             alert("Patient added successfully!");
             setName("");
+            setIsButtonDisabled(true);
         } catch (error) {
             console.error("Error adding patient:", error);
         }
@@ -25,9 +32,9 @@ const AddPatientForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Name & Last Name:</label>
-                <TextFields value={name} onChange={setName} />
+                <TextFields value={name} onChange={handleNameChange} />
             </div>
-            <Button type="submit">Add Patient</Button>
+            <Button type="submit" disabled={isButtonDisabled}>Add Patient</Button>
         </form>
     );
 };

@@ -11,13 +11,13 @@ interface CardProps {
 
 const Card: React.FC<CardProps> = ({ title, content, actions, link }) => {
     return (
-        <div className="card bg-base-100 w-96 shadow-xl">
-            <div className="card-body">
+        <div className="card bg-base-100 w-96 shadow-xl flex flex-col">
+            <div className="card-body flex flex-col flex-grow">
                 <h2 className="card-title">{title}</h2>
-                <div>{content}</div>
-                {actions && <div className="card-actions justify-end">{actions}</div>}
+                <div className="flex-grow flex flex-col">{content}</div>
+                {actions && <div className="card-actions justify-end flex">{actions}</div>}
                 {link && (
-                    <div className="card-actions justify-end">
+                    <div className="card-actions justify-end flex">
                         <Link to={link} className="btn btn-primary">View Details</Link>
                     </div>
                 )}
