@@ -1,6 +1,5 @@
-// client/src/components/Patients/PatientDetail.tsx
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
@@ -8,7 +7,7 @@ import UpdatePatientForm from "./UpdatePatient";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import Card from "../Utilities/Cards.tsx";
 import Button from "../Utilities/Button";
-import { useNavigate } from "react-router-dom";
+import RemovePatient from "./RemovePatient";
 
 const PatientDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -64,6 +63,8 @@ const PatientDetail: React.FC = () => {
                     <p><strong>Name:</strong> {patient.name}</p>
                     <br/>
                     <UpdatePatientForm patient={patient} />
+                    <br/>
+                    <RemovePatient patient={patient} />
                     <br/>
                     <Button
                         type="button"

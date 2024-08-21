@@ -6,8 +6,6 @@ import TextFields from "../Utilities/TextField";
 import Button from "../Utilities/Button";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
-import { useNavigate } from "react-router-dom";
-import RemovePatient from "./RemovePatient";
 
 interface UpdatePatientFormProps {
     patient: Patients;
@@ -63,7 +61,6 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                     >
                         Update Patient
                     </Button>
-                    <RemovePatient patient={patient} />
                 </div>
             </form>
         </div>

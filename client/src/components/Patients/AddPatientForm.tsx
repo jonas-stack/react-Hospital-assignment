@@ -29,13 +29,16 @@ const AddPatientForm: React.FC = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <div>
-                <label>Name & Last Name:</label>
-                <TextFields value={name} onChange={handleNameChange} />
-            </div>
-            <Button type="submit" disabled={isButtonDisabled}>Add Patient</Button>
-        </form>
+        <div className= "flex flex-col">
+            <form onSubmit={handleSubmit}>
+                <div>
+                    <label>Name & Last Name:</label>
+                    <TextFields value={name} onChange={handleNameChange} />
+                </div>
+                <br />
+                <Button type="submit" disabled={isButtonDisabled}>Add Patient</Button>
+            </form>
+        </div>
     );
 };
 

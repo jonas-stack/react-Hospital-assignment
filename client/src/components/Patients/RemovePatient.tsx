@@ -21,7 +21,7 @@ const RemovePatient: React.FC<RemovePatientProps> = ({ patient }) => {
             if (response.status === 200) {
                 setPatients(patients.filter(p => p.id !== patient.id));
                 alert("Patient removed successfully!");
-                navigate('/patients');
+                navigate('/patients'); // Navigate back to the patient list
             } else {
                 alert("Failed to remove patient. Please try again.");
             }
