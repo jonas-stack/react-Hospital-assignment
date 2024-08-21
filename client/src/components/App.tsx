@@ -10,6 +10,8 @@ import { ThemeAtom } from "../atoms/ThemeAtom.tsx";
 import { PatientList } from "./Patients/PatientList.tsx";
 import Breadcrumbs from "./Utilities/Breadcrumbs.tsx";
 import { generateBreadcrumbs} from "./Utilities/generateBreadcrumbs.tsx";
+import PatientDetail from "./Patients/PatientDetail.tsx";
+
 
 const App = () => {
     const [theme, setTheme] = useAtom(ThemeAtom);
@@ -28,6 +30,7 @@ const App = () => {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/patients" element={<PatientList />} />
+                <Route path="/patients/:id" element={<PatientDetail />} />
             </Routes>
             <DevTools />
         </>

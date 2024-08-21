@@ -6,6 +6,7 @@ import { Api } from "../../Api";
 import AddPatientForm from "./AddPatientForm";
 import RemovePatient from "./RemovePatient";
 import UpdatePatient from "./UpdatePatient.tsx";
+import {Link} from "react-router-dom";
 
 export const PatientList = () => {
     const [patients, setPatients] = useAtom(patientsAtom);
@@ -23,7 +24,7 @@ export const PatientList = () => {
             <AddPatientForm />
             {patients.map((patient) => (
                 <div key={patient.id}>
-                    {patient.name}
+                    <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
                 </div>
             ))}
             <RemovePatient />
