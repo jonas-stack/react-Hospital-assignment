@@ -7,6 +7,7 @@ import AddPatientForm from "./AddPatientForm";
 import RemovePatient from "./RemovePatient";
 import UpdatePatient from "./UpdatePatient.tsx";
 import {Link} from "react-router-dom";
+import Card from "../Utilities/Cards.tsx";
 
 export const PatientList = () => {
     const [patients, setPatients] = useAtom(patientsAtom);
@@ -28,7 +29,16 @@ export const PatientList = () => {
                 </div>
             ))}
             <RemovePatient />
-            <UpdatePatient />
+            <div>
+                {patients.map(patient => (
+                    <Card
+                        key={patient.id}
+                        title={patient.name}
+                        content={<p>ID: {patient.id}</p>}
+                        link={`/patients/${patient.id}`}
+                    />
+                ))}
+            </div>
         </div>
     );
 };

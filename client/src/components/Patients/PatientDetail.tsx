@@ -1,10 +1,16 @@
+// client/src/components/Patients/PatientDetail.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Api, Patients } from "../../Api";
+import { useAtom } from "jotai";
 import { apiClient } from "../../apiClient.ts";
+import Card from "../Utilities/Cards.tsx";
+import { Patients } from "../../Api.ts";
+import UpdatePatientForm from "./UpdatePatient.tsx";
+import { patientsAtom } from "../../atoms/PatientsAtom";
 
 const PatientDetail = () => {
     const { id } = useParams<{ id: string }>();
+    const [patients] = useAtom(patientsAtom);
     const [patient, setPatient] = useState<Patients | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -39,14 +45,28 @@ const PatientDetail = () => {
         fetchPatient();
     }, [id]);
 
+    useEffect(() => {
+        const updatedPatient = patients.find(p => p.id === parseInt(id));
+        if (updatedPatient) {
+            setPatient(updatedPatient);
+        }
+    }, [patients, id]);
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
     if (!patient) return <div>Patient not found</div>;
 
     return (
         <div>
-            <h1>Patient Details</h1>
-            <p><strong>Name:</strong> {patient.name}</p>
+            <Card
+                title="Patient Details"
+                content={
+                    <div>
+                        <p><strong>Name:</strong> {patient.name}</p>
+                        <UpdatePatientForm patient={patient} />
+                    </div>
+                }
+            />
         </div>
     );
 };
