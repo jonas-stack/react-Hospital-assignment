@@ -8,6 +8,7 @@ import Navigation from "./Navigation.tsx";
 import { useAtom } from "jotai";
 import { ThemeAtom } from "../atoms/ThemeAtom.tsx";
 import { PatientList } from "./Patients/PatientList.tsx";
+import ThemeSwitcher from "./ThemeSwitcher.tsx";
 
 const App = () => {
     const [theme, setTheme] = useAtom(ThemeAtom);

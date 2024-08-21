@@ -5,6 +5,7 @@ import { patientsAtom } from "../../atoms/PatientsAtom";
 import { Api } from "../../Api";
 import AddPatientForm from "./AddPatientForm";
 import RemovePatient from "./RemovePatient";
+import UpdatePatient from "./UpdatePatient.tsx";
 
 export const PatientList = () => {
     const [patients, setPatients] = useAtom(patientsAtom);
@@ -26,6 +27,7 @@ export const PatientList = () => {
                 </div>
             ))}
             <RemovePatient />
+            <UpdatePatient />
         </div>
     );
 };

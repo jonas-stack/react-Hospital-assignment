@@ -2,9 +2,9 @@
 import React, { useState } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
-import { Api } from "../../Api";
 import Button from "../Utilities/Button.tsx";
 import {apiClient} from "../../apiClient.ts";
+import TextFields from "../Utilities/TextField.tsx";
 
 const AddPatientForm: React.FC = () => {
     const [name, setName] = useState("");
@@ -17,6 +17,7 @@ const AddPatientForm: React.FC = () => {
             const response = await apiClient.patients.patientsCreate({ name });
             setPatients([...patients, response.data[0]]);
             alert("Patient added successfully!");
+            setName("");
         } catch (error) {
             console.error("Error adding patient:", error);
         }
@@ -26,12 +27,7 @@ const AddPatientForm: React.FC = () => {
         <form onSubmit={handleSubmit}>
             <div>
                 <label>Name & Last Name:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
+                <TextFields value={name} onChange={setName} />
             </div>
             <Button type="submit">Add Patient</Button>
         </form>

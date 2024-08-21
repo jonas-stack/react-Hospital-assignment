@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { patientsAtom } from '../../atoms/PatientsAtom';
-import { Api } from '../../Api';
 import Button from '../Utilities/Button.tsx';
-import {apiClient} from "../../apiClient.ts";
+import TextFields from '../Utilities/TextField.tsx';
+import { apiClient } from '../../apiClient.ts';
 
 const RemovePatient = () => {
     const [name, setName] = useState("");
@@ -17,6 +17,7 @@ const RemovePatient = () => {
             if (response && response.status === 200) {
                 setPatients(patients.filter(patient => patient.name !== name));
                 alert("Patient removed successfully!");
+                setName(""); // Clear the input field after successful removal
             } else {
                 alert("Failed to remove patient. Please try again.");
             }
@@ -30,12 +31,7 @@ const RemovePatient = () => {
         <form onSubmit={handleRemove}>
             <div>
                 <label>Remove patient name from list:</label>
-                <input
-                    type="text"
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    required
-                />
+                <TextFields value={name} onChange={setName} />
             </div>
             <Button type="submit">Remove Patient</Button>
         </form>
