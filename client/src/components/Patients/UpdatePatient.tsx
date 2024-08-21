@@ -1,11 +1,10 @@
-// client/src/components/Patients/UpdatePatient.tsx
 import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
-import TextFields from "../Utilities/TextField.tsx";
-import Button from "../Utilities/Button.tsx";
-import { apiClient } from "../../apiClient.ts";
-import { Patients } from "../../Api.ts";
+import TextFields from "../Utilities/TextField";
+import Button from "../Utilities/Button";
+import { apiClient } from "../../apiClient";
+import { Patients } from "../../Api";
 import { useNavigate } from "react-router-dom";
 
 interface UpdatePatientFormProps {
@@ -32,7 +31,7 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                 { headers: { Prefer: "return=representation" } }
             );
 
-            if (response && response.status === 200) {
+            if (response.status === 200) {
                 setPatients(patients.map(p =>
                     p.id === patient.id ? { ...p, name: newName } : p
                 ));

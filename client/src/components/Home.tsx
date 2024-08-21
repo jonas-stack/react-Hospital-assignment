@@ -1,13 +1,12 @@
-// client/src/components/Home.tsx
 import React, { useEffect } from "react";
-import { apiClient } from "../apiClient.ts";
+import { apiClient } from "../apiClient";
 import { AxiosResponse } from "axios";
-import { Patients } from "../Api.ts";
+import { Patients } from "../Api";
 import { useNavigate } from "react-router-dom";
-import Button from "./Utilities/Button.tsx";
-import ButtonContainer from "./Utilities/ButtonContainer.tsx";
+import Button from "./Utilities/Button";
+import ButtonContainer from "./Utilities/ButtonContainer";
 
-export default function Home() {
+const Home: React.FC = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,4 +27,6 @@ export default function Home() {
             </ButtonContainer>
         </div>
     );
-}
+};
+
+export default Home;

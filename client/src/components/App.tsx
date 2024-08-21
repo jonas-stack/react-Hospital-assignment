@@ -1,24 +1,23 @@
-// client/src/components/App.tsx
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import React, { useEffect } from "react";
+import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import Home from "./Home.tsx";
+import Home from "./Home";
 import { DevTools } from "jotai-devtools";
-import Navigation from "./Navigation.tsx";
+import Navigation from "./Navigation";
 import { useAtom } from "jotai";
-import { ThemeAtom } from "../atoms/ThemeAtom.tsx";
-import { PatientList } from "./Patients/PatientList.tsx";
-import Breadcrumbs from "./Utilities/Breadcrumbs.tsx";
-import { generateBreadcrumbs } from "./Utilities/generateBreadcrumbs.tsx";
-import PatientDetail from "./Patients/PatientDetail.tsx";
+import { ThemeAtom } from "../atoms/ThemeAtom";
+import PatientList from "./Patients/PatientList";
+import Breadcrumbs from "./Utilities/Breadcrumbs";
+import { generateBreadcrumbs } from "./Utilities/generateBreadcrumbs";
+import PatientDetail from "./Patients/PatientDetail";
 
-const App = () => {
-    const [theme] = useAtom(ThemeAtom);  // Use theme from atom
+const App: React.FC = () => {
+    const [theme] = useAtom(ThemeAtom);
     const location = useLocation();
 
     useEffect(() => {
         localStorage.setItem('theme', theme);
-        document.documentElement.setAttribute('data-theme', theme); // Apply theme to root element
+        document.documentElement.setAttribute('data-theme', theme);
     }, [theme]);
 
     return (

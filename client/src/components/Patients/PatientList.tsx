@@ -1,19 +1,24 @@
-// client/src/components/Patients/PatientList.tsx
 import React, { useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import { Api } from "../../Api";
 import AddPatientForm from "./AddPatientForm";
-import Card from "../Utilities/Cards.tsx";
+import Card from "../Utilities/Cards";
 
-export const PatientList = () => {
+const PatientList: React.FC = () => {
     const [patients, setPatients] = useAtom(patientsAtom);
 
     useEffect(() => {
-        const api = new Api();
-        api.patients.patientsList()
-            .then((response) => setPatients(response.data))
-            .catch((error) => console.error("Error fetching patients:", error));
+        const fetchPatients = async () => {
+            try {
+                const response = await new Api().patients.patientsList();
+                setPatients(response.data);
+            } catch (error) {
+                console.error("Error fetching patients:", error);
+            }
+        };
+
+        fetchPatients();
     }, [setPatients]);
 
     return (
@@ -33,3 +38,5 @@ export const PatientList = () => {
         </div>
     );
 };
+
+export default PatientList;

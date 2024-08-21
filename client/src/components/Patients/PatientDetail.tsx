@@ -1,15 +1,14 @@
-// client/src/components/Patients/PatientDetail.tsx
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAtom } from "jotai";
-import { apiClient } from "../../apiClient.ts";
-import Card from "../Utilities/Cards.tsx";
-import { Patients } from "../../Api.ts";
-import UpdatePatientForm from "./UpdatePatient.tsx";
-import RemovePatient from "./RemovePatient.tsx";
+import { apiClient } from "../../apiClient";
+import Card from "../Utilities/Cards";
+import { Patients } from "../../Api";
+import UpdatePatientForm from "./UpdatePatient";
+import RemovePatient from "./RemovePatient";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 
-const PatientDetail = () => {
+const PatientDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const [patients] = useAtom(patientsAtom);
     const [patient, setPatient] = useState<Patients | null>(null);
@@ -26,17 +25,12 @@ const PatientDetail = () => {
 
             try {
                 const response = await apiClient.patients.patientsList({ id: `eq.${parseInt(id)}` });
-                if (response && response.status === 200) {
-                    if (response.data.length > 0) {
-                        setPatient(response.data[0]);
-                    } else {
-                        setError("Patient not found");
-                    }
+                if (response.status === 200 && response.data.length > 0) {
+                    setPatient(response.data[0]);
                 } else {
-                    setError("Failed to fetch patient");
+                    setError("Patient not found");
                 }
-            } catch (err) {
-                console.error("Error fetching patient details:", err);
+            } catch {
                 setError("An error occurred while fetching patient details");
             } finally {
                 setLoading(false);
