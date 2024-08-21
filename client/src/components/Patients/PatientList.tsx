@@ -1,17 +1,20 @@
 // client/src/components/Patients/PatientList.tsx
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { useAtom } from "jotai";
+import { patientsAtom } from "../../atoms/PatientsAtom";
 import { Api } from "../../Api";
 import AddPatientForm from "./AddPatientForm";
+import RemovePatient from "./RemovePatient";
 
 export const PatientList = () => {
-    const [patients, setPatients] = useState([]);
+    const [patients, setPatients] = useAtom(patientsAtom);
 
     useEffect(() => {
         const api = new Api();
         api.patients.patientsList()
             .then((response) => setPatients(response.data))
             .catch((error) => console.error("Error fetching patients:", error));
-    }, []);
+    }, [setPatients]);
 
     return (
         <div>
@@ -22,6 +25,7 @@ export const PatientList = () => {
                     {patient.name}
                 </div>
             ))}
+            <RemovePatient />
         </div>
     );
 };

@@ -369,7 +369,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "$ref": "#/definitions/diseases"
+                "$ref": "#/definitions/patients"
               }
             }
           }
