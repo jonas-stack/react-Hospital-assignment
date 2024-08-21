@@ -46,9 +46,11 @@ const PatientDetail = () => {
     }, [id]);
 
     useEffect(() => {
-        const updatedPatient = patients.find(p => p.id === parseInt(id));
-        if (updatedPatient) {
-            setPatient(updatedPatient);
+        if (id) {
+            const updatedPatient = patients.find(p => p.id === parseInt(id));
+            if (updatedPatient) {
+                setPatient(updatedPatient);
+            }
         }
     }, [patients, id]);
 
