@@ -1,23 +1,28 @@
 // client/src/components/Patients/RemovePatient.tsx
-import React, { useState } from 'react';
+import React from 'react';
 import { useAtom } from 'jotai';
+import { useNavigate } from 'react-router-dom';
 import { patientsAtom } from '../../atoms/PatientsAtom';
-import Button from '../Utilities/Button.tsx';
-import TextFields from '../Utilities/TextField.tsx';
-import { apiClient } from '../../apiClient.ts';
+import Button from '../Utilities/Button';
+import { apiClient } from '../../apiClient';
+import { Patients } from '../../Api';
 
-const RemovePatient = () => {
-    const [name, setName] = useState("");
+interface RemovePatientProps {
+    patient: Patients;
+}
+
+const RemovePatient: React.FC<RemovePatientProps> = ({ patient }) => {
     const [patients, setPatients] = useAtom(patientsAtom);
+    const navigate = useNavigate();  // Rename this variable to avoid confusion
 
     const handleRemove = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const response = await apiClient.patients.patientsDelete({ name: `eq.${name}` });
+            const response = await apiClient.patients.patientsDelete({ id: `eq.${patient.id}` });
             if (response && response.status === 200) {
-                setPatients(patients.filter(patient => patient.name !== name));
+                setPatients(patients.filter(p => p.id !== patient.id));
                 alert("Patient removed successfully!");
-                setName(""); // Clear the input field after successful removal
+                navigate('/patients');  // Use navigate to redirect
             } else {
                 alert("Failed to remove patient. Please try again.");
             }
@@ -30,10 +35,8 @@ const RemovePatient = () => {
     return (
         <form onSubmit={handleRemove}>
             <div>
-                <label>Remove patient name from list:</label>
-                <TextFields value={name} onChange={setName} />
+                <Button type="submit">Remove Patient</Button>
             </div>
-            <Button type="submit">Remove Patient</Button>
         </form>
     );
 };

@@ -28,7 +28,6 @@ export const PatientList = () => {
                     <Link to={`/patients/${patient.id}`}>{patient.name}</Link>
                 </div>
             ))}
-            <RemovePatient />
             <div>
                 {patients.map(patient => (
                     <Card

@@ -6,6 +6,7 @@ import { apiClient } from "../../apiClient.ts";
 import Card from "../Utilities/Cards.tsx";
 import { Patients } from "../../Api.ts";
 import UpdatePatientForm from "./UpdatePatient.tsx";
+import RemovePatient from "./RemovePatient.tsx";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 
 const PatientDetail = () => {
@@ -66,6 +67,7 @@ const PatientDetail = () => {
                     <div>
                         <p><strong>Name:</strong> {patient.name}</p>
                         <UpdatePatientForm patient={patient} />
+                        <RemovePatient patient={patient} />
                     </div>
                 }
             />
