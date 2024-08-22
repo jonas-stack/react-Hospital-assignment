@@ -1,28 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useAtom } from "jotai";
+import { ThemeAtom } from "../../atoms/ThemeAtom";
 
 const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }) => {
+    const [theme] = useAtom(ThemeAtom);
     const [query, setQuery] = useState("");
 
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setQuery(event.target.value);
     };
 
-    const handleSearchClick = () => {
+    useEffect(() => {
         onSearch(query);
-    };
+    }, [query, onSearch]);
 
     return (
-        <div className="search-bar">
+        <div className={`search-bar ${theme}`}>
             <input
                 type="text"
                 value={query}
                 onChange={handleInputChange}
                 placeholder="Search..."
-                className="search-input"
+                className={`search-input input input-bordered ${theme}`}
             />
-            <button onClick={handleSearchClick} className="search-button">
-                Search
-            </button>
         </div>
     );
 };

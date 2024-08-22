@@ -14,12 +14,10 @@ interface ButtonProps {
 const Button: React.FC<ButtonProps> = ({ onClick, className = "", disabled = false, type = "button", children }) => {
     const [theme] = useAtom(ThemeAtom);
 
-    // Combine base button class with theme-specific class
-    const combinedClass = `btn ${theme} ${className}`;
 
     return (
         <button
-            className={combinedClass}
+            className={`btn ${theme} ${className}`}
             onClick={onClick}
             disabled={disabled}
             type={type}
