@@ -7,8 +7,7 @@ import Navigation from "./Navigation";
 import { useAtom } from "jotai";
 import { ThemeAtom } from "../atoms/ThemeAtom";
 import PatientList from "./Patients/PatientList";
-import Breadcrumbs from "./Utilities/Breadcrumbs";
-import { generateBreadcrumbs } from "./Utilities/generateBreadcrumbs";
+import { Breadcrumbs, generateBreadcrumbs } from "./Utilities/Breadcrumbs";
 import PatientDetail from "./Patients/PatientDetail";
 import NavigationBar from "./Utilities/NavigationBar.tsx";
 
