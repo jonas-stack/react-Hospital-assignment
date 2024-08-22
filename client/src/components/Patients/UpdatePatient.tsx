@@ -1,11 +1,10 @@
-// client/src/components/Patients/UpdatePatient.tsx
 import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
-import TextFields from "../Utilities/TextField";
 import Button from "../Utilities/Button";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
+import { ThemeAtom } from "../../atoms/ThemeAtom";
 
 interface UpdatePatientFormProps {
     patient: Patients;
@@ -15,6 +14,7 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
     const [patients, setPatients] = useAtom(patientsAtom);
     const [newName, setNewName] = useState(patient.name);
     const [isModified, setIsModified] = useState(false);
+    const [theme] = useAtom(ThemeAtom);
 
     useEffect(() => {
         setIsModified(newName !== patient.name);
@@ -45,12 +45,18 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
     };
 
     return (
-        <div className="flex flex-col">
+        <div className={`flex flex-col ${theme}`} data-theme={theme}>
             <br/>
             <form onSubmit={handlePatientUpdate}>
                 <div>
-                    <label>New name:</label>
-                    <TextFields value={newName} onChange={setNewName} />
+                    <label htmlFor="newName">New name:</label>
+                    <input
+                        id="newName"
+                        type="text"
+                        value={newName}
+                        onChange={(e) => setNewName(e.target.value)}
+                        className={`input input-bordered ${theme}`}
+                    />
                 </div>
                 <br/>
                 <div className="flex flex-row gap-4">

@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import Button from "../Utilities/Button";
-import TextFields from "../Utilities/TextField";
 import { apiClient } from "../../apiClient";
+import { ThemeAtom } from "../../atoms/ThemeAtom";
 
 const AddPatientForm: React.FC = () => {
     const [name, setName] = useState("");
     const [patients, setPatients] = useAtom(patientsAtom);
     const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+    const [theme] = useAtom(ThemeAtom);
 
     const handleNameChange = (value: string) => {
         setName(value);
@@ -29,11 +30,18 @@ const AddPatientForm: React.FC = () => {
     };
 
     return (
-        <div className= "flex flex-col">
+        <div className={`flex flex-col ${theme}`} data-theme={theme}>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Name & Last Name:</label>
-                    <TextFields value={name} onChange={handleNameChange} />
+                <div className="flex flex-col">
+                    <label htmlFor="name">Name & Last Name:</label>
+                    <input
+                        id="name"
+                        type="text"
+                        value={name}
+                        onChange={(e) => handleNameChange(e.target.value)}
+                        className={`input input-bordered ${theme}`}
+                        style={{ width: "300px" }} // Set a fixed width for the input field
+                    />
                 </div>
                 <br />
                 <Button type="submit" disabled={isButtonDisabled}>Add Patient</Button>
