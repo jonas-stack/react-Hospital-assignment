@@ -32,8 +32,8 @@ const RemovePatient: React.FC<RemovePatientProps> = ({ patient }) => {
 
     return (
         <form onSubmit={handleRemove}>
-            <div>
-                <button className="btn btn-primary" type="submit">Remove Patient</button>
+            <div className="flex justify-center p-4">
+                <button className="btn bg-red-500" type="submit">Delete Patient</button>
             </div>
         </form>
     );

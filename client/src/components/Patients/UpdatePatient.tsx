@@ -47,7 +47,7 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
         <div className={`flex flex-col ${theme}`} data-theme={theme}>
             <br/>
             <form onSubmit={handlePatientUpdate}>
-                <div>
+                <div className="flex flex-col gap-2 p-4">
                     <label htmlFor="newName">New name:</label>
                     <input
                         id="newName"
@@ -58,7 +58,7 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                     />
                 </div>
                 <br/>
-                <div className="flex flex-row gap-4">
+                <div className="flex justify-center">
                     <button
                         type="submit"
                         disabled={!isModified}

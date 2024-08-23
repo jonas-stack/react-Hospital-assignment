@@ -9,7 +9,8 @@ import { ThemeAtom } from "../atoms/ThemeAtom";
 import PatientList from "./Patients/PatientList";
 import { Breadcrumbs, generateBreadcrumbs } from "./Utilities/Breadcrumbs";
 import PatientDetail from "./Patients/PatientDetail";
-import NavigationBar from "./Utilities/NavigationBar.tsx";
+import NavigationBar from "./Utilities/NavigationBar";
+import DiseaseList from "./Diseases/DiseaseList";
 
 const App: React.FC = () => {
     const [theme] = useAtom(ThemeAtom);
@@ -32,6 +33,7 @@ const App: React.FC = () => {
                     <Route path="/" element={<Home/>}/>
                     <Route path="/patients" element={<PatientList/>}/>
                     <Route path="/patients/:id" element={<PatientDetail/>}/>
+                    <Route path="/diseases" element={<DiseaseList/>}/>
                 </Routes>
                 <DevTools/>
             </div>

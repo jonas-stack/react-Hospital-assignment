@@ -39,7 +39,13 @@ const PatientList: React.FC = () => {
             <br/>
             <div className="flex justify-between items-center">
                 <SearchBar onSearch={handleSearch}/>
-                <AddPatientForm/>
+            </div>
+            <br/>
+            <h2 style={{fontSize: '2em'}}><strong>Create Patient</strong></h2>
+            <br/>
+            <div className="flex flex-auto">
+
+            <AddPatientForm/>
             </div>
             <br/>
             <div className="patient-list">
