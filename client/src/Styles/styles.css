@@ -17,6 +17,16 @@ code {
     monospace;
 }
 
+.app-container {
+    display: flex;
+}
+
+.main-content {
+    margin-left: 200px; /* Adjust this value to match the width of your side-nav */
+    padding: 16px; /* Optional: Add padding for better spacing */
+    width: calc(100% - 200px); /* Adjust this value to match the width of your side-nav */
+}
+
 /* client/src/styles/Breadcrumbs.css */
 .breadcrumbs ul {
     list-style: none;
@@ -44,6 +54,53 @@ code {
     flex: 1 1 calc(33.333% - 16px); /* Adjust the percentage to control the number of cards per row */
     box-sizing: border-box;
 }
+
+
+/* client/src/components/Utillities/NavigationBar.css */
+.side-nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 200px;
+    background-color: #f8f9fa;
+    padding: 10px;
+}
+
+.side-nav.light {
+    background-color: #ffffff;
+}
+
+.side-nav.dark {
+    background-color: #333333;
+}
+
+.side-nav button {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    width: 100%;
+    text-align: left;
+}
+
+.side-nav button.light {
+    background-color: #f0f0f0;
+    color: #000000;
+}
+
+.side-nav button.dark {
+    background-color: #444444;
+    color: #ffffff;
+}
+
+.side-nav-label {
+    margin-left: 10px;
+}
+
+
 
 
 

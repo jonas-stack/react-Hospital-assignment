@@ -35,8 +35,13 @@ const PatientList: React.FC = () => {
 
     return (
         <div className={`flex flex-col ${theme}`} data-theme={theme}>
-            <h1>Patient List</h1>
-            <SearchBar onSearch={handleSearch} />
+            <h1 style={{fontSize: '2em'}}><strong>Patient List</strong></h1>
+            <br/>
+            <div className="flex justify-between items-center">
+                <SearchBar onSearch={handleSearch}/>
+                <AddPatientForm/>
+            </div>
+            <br/>
             <div className="patient-list">
                 {patients.map(patient => (
                     <Card
@@ -47,7 +52,7 @@ const PatientList: React.FC = () => {
                     />
                 ))}
             </div>
-            <AddPatientForm />
+            <br/>
         </div>
     );
 };

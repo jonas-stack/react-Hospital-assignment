@@ -23,7 +23,11 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }
                 placeholder="Search..."
                 className={`search-input input input-bordered ${theme}`}
             />
-            <button onClick={handleSearch} className={`search-button btn btn-primary ${theme}`}>
+            <button
+                onClick={handleSearch}
+                className={`search-button btn btn-primary ${theme}`}
+                style={{margin: '10px'}}
+            >
                 Search
             </button>
         </div>

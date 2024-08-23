@@ -31,21 +31,20 @@ const AddPatientForm: React.FC = () => {
     return (
         <div className={`flex flex-col ${theme}`} data-theme={theme}>
             <form onSubmit={handleSubmit}>
-                <div className="flex flex-col">
-                    <label htmlFor="name">Name & Last Name:</label>
+                <div className="flex flex-row items-center">
+                    <label htmlFor="name" className="mr-2">Name & Last Name:</label>
                     <input
                         id="name"
                         type="text"
                         value={name}
                         onChange={(e) => handleNameChange(e.target.value)}
                         className={`input input-bordered ${theme}`}
-                        style={{ width: "300px" }} // Set a fixed width for the input field
+                        style={{flex: 1}}
                     />
+                    <button type="submit" disabled={isButtonDisabled} className="btn btn-primary ml-2">
+                        Add Patient
+                    </button>
                 </div>
-                <br />
-                <button type="submit" disabled={isButtonDisabled} className="btn btn-primary">
-                    Add Patient
-                </button>
             </form>
         </div>
     );

@@ -21,17 +21,20 @@ const App: React.FC = () => {
     }, [theme]);
 
     return (
-        <div className="flex flex-col" style={{display: 'flex', gap: '16px', padding: '16px'}}>
-            <Navigation/>
-            <Breadcrumbs items={generateBreadcrumbs(location.pathname)}/>
-            <Toaster/>
-            <Routes>
-                <Route path="/" element={<Home/>}/>
-                <Route path="/patients" element={<PatientList/>}/>
-                <Route path="/patients/:id" element={<PatientDetail/>}/>
-            </Routes>
-            <DevTools/>
+        <div className={`app-container ${theme}`}>
             <NavigationBar/>
+            <div className="main-content">
+                <Navigation/>
+                <Breadcrumbs items={generateBreadcrumbs(location.pathname)}/>
+                <br/>
+                <Toaster/>
+                <Routes>
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/patients" element={<PatientList/>}/>
+                    <Route path="/patients/:id" element={<PatientDetail/>}/>
+                </Routes>
+                <DevTools/>
+            </div>
         </div>
     );
 };
