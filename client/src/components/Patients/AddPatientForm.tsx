@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
-import Button from "../Utilities/Button";
 import { apiClient } from "../../apiClient";
 import { ThemeAtom } from "../../atoms/ThemeAtom";
 
@@ -44,7 +43,9 @@ const AddPatientForm: React.FC = () => {
                     />
                 </div>
                 <br />
-                <Button type="submit" disabled={isButtonDisabled}>Add Patient</Button>
+                <button type="submit" disabled={isButtonDisabled} className="btn btn-primary">
+                    Add Patient
+                </button>
             </form>
         </div>
     );

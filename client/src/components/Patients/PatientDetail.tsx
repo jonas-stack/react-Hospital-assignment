@@ -6,7 +6,6 @@ import { Patients } from "../../Api";
 import UpdatePatientForm from "./UpdatePatient";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import Card from "../Utilities/Cards.tsx";
-import Button from "../Utilities/Button";
 import RemovePatient from "./RemovePatient";
 
 const PatientDetail: React.FC = () => {
@@ -66,12 +65,13 @@ const PatientDetail: React.FC = () => {
                     <br/>
                     <RemovePatient patient={patient} />
                     <br/>
-                    <Button
+                    <button
                         type="button"
                         onClick={() => navigate('/patients')}
+                        className="btn btn-primary"
                     >
                         Go Back To Patients List
-                    </Button>
+                    </button>
                 </div>
             }
         />

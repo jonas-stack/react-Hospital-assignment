@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useAtom } from "jotai";
 import { ThemeAtom } from "../../atoms/ThemeAtom";
 
@@ -10,9 +10,9 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }
         setQuery(event.target.value);
     };
 
-    useEffect(() => {
+    const handleSearch = () => {
         onSearch(query);
-    }, [query, onSearch]);
+    };
 
     return (
         <div className={`search-bar ${theme}`}>
@@ -23,6 +23,9 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({ onSearch }
                 placeholder="Search..."
                 className={`search-input input input-bordered ${theme}`}
             />
+            <button onClick={handleSearch} className={`search-button btn btn-primary ${theme}`}>
+                Search
+            </button>
         </div>
     );
 };
