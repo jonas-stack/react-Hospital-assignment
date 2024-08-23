@@ -2,7 +2,6 @@ import React from 'react';
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import { patientsAtom } from '../../atoms/PatientsAtom';
-import Button from '../Utilities/Button';
 import { apiClient } from '../../apiClient';
 import { Patients } from '../../Api';
 
@@ -34,7 +33,7 @@ const RemovePatient: React.FC<RemovePatientProps> = ({ patient }) => {
     return (
         <form onSubmit={handleRemove}>
             <div>
-                <Button type="submit">Remove Patient</Button>
+                <button className="btn btn-primary" type="submit">Remove Patient</button>
             </div>
         </form>
     );

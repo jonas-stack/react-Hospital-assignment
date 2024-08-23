@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAtom } from "jotai";
 import { patientsAtom } from "../../atoms/PatientsAtom";
-import Button from "../Utilities/Button";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
 import { ThemeAtom } from "../../atoms/ThemeAtom";
@@ -60,13 +59,13 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                 </div>
                 <br/>
                 <div className="flex flex-row gap-4">
-                    <Button
+                    <button
                         type="submit"
                         disabled={!isModified}
-                        className={!isModified ? "button-disabled" : ""}
+                        className={`btn btn-primary ${!isModified ? "button-disabled" : ""}`}
                     >
                         Update Patient
-                    </Button>
+                    </button>
                 </div>
             </form>
         </div>
