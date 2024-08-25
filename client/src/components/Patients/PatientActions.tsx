@@ -16,10 +16,9 @@ const PatientActions: React.FC<PatientActionsProps> = ({ patient }) => {
     const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
     return (
-        <div className="relative ml-4 flex flex-col justify-center items-center w-full max-w-lg">
+        <div className={`relative ml-4 flex flex-col justify-center items-center w-full max-w-lg ${theme}`} data-theme={theme}>
             <div
                 className={`collapse collapse-arrow bg-base-200 w-full ${isCollapsed ? "collapse-open" : "collapse-close"}`}
-                data-theme={theme}
             >
                 <div
                     className="collapse-title text-xl font-medium cursor-pointer"

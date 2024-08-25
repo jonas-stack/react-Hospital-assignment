@@ -1,7 +1,8 @@
-// DiseaseList.tsx
 import React, { useEffect, useState } from "react";
 import { apiClient } from "../../apiClient";
 import AddDisease from "./AddDisease.tsx";
+import { useAtom } from 'jotai';
+import { diseaseAtom } from '../../atoms/DiseaseAtom';
 
 export interface Disease {
     id: number;
@@ -16,7 +17,7 @@ const transformToDisease = (data: any[]): Disease[] => {
 };
 
 const DiseaseList: React.FC = () => {
-    const [diseases, setDiseases] = useState<Disease[]>([]);
+    const [diseases, setDiseases] = useAtom(diseaseAtom);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -37,20 +38,26 @@ const DiseaseList: React.FC = () => {
         };
 
         fetchDiseases();
-    }, []);
+    }, [setDiseases]);
+
+    const handleDiseaseAdded = (newDisease: Disease) => {
+        setDiseases([...diseases, newDisease]); // Add the new disease to the state
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
     return (
         <div className="flex flex-col gap-4 p-4">
-            <h1>Diseases</h1>
-            <ul>
+            <h1 className="text-2xl font-bold mb-4">Diseases</h1>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {diseases.map(disease => (
-                    <li key={disease.id}>{disease.name}</li>
+                    <div key={disease.id} className="card bg-base-200 shadow-md p-4 rounded-lg">
+                        <h2 className="text-xl font-semibold truncate">{disease.name}</h2>
+                    </div>
                 ))}
-            </ul>
-            <AddDisease />
+            </div>
+            <AddDisease onDiseaseAdded={handleDiseaseAdded} />
         </div>
     );
 };

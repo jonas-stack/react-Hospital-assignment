@@ -17,6 +17,12 @@ code {
     monospace;
 }
 
+.card {
+    background-color: #f0f0f0; /* Pleasant grey color */
+    text-decoration-color: black;
+    color: black; /* Ensure text is always black */
+}
+
 .app-container {
     display: flex;
 }
