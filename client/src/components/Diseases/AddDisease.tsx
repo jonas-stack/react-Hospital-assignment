@@ -27,7 +27,8 @@ const AddDisease: React.FC<AddDiseaseProps> = ({ onDiseaseAdded }) => {
         try {
             const response = await apiClient.diseases.diseasesCreate({ name });
             if ([200, 201].includes(response.status)) {
-                const newDisease: Disease = { id: response.data.id, name };
+                const createdDisease = response.data[0];
+                const newDisease: Disease = { id: createdDisease.id ?? 0, name: createdDisease.name };
                 onDiseaseAdded(newDisease);
                 setName('');
                 setIsButtonDisabled(true);
