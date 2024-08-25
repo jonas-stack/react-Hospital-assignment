@@ -27,7 +27,8 @@ const AddDisease: React.FC<AddDiseaseProps> = ({ onDiseaseAdded }) => {
         try {
             const response = await apiClient.diseases.diseasesCreate({ name });
             if ([200, 201].includes(response.status)) {
-                onDiseaseAdded({ id: response.data.id, name });
+                const newDisease: Disease = { id: response.data.id, name };
+                onDiseaseAdded(newDisease);
                 setName('');
                 setIsButtonDisabled(true);
                 alert('Disease created successfully!');

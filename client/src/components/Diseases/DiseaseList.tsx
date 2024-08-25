@@ -1,9 +1,11 @@
+// client/src/components/Diseases/DiseaseList.tsx
 import React, { useEffect, useState } from "react";
 import { apiClient } from "../../apiClient";
-import AddDisease from "./AddDisease.tsx";
+import AddDisease from "./AddDisease";
 import { useAtom } from 'jotai';
 import { diseaseAtom } from '../../atoms/DiseaseAtom';
-import RemoveDisease from "./RemoveDisease.tsx";
+import RemoveDisease from "./RemoveDisease";
+import UpdateDisease from "./UpdateDisease";
 
 export interface Disease {
     id: number;
@@ -12,7 +14,7 @@ export interface Disease {
 
 const transformToDisease = (data: any[]): Disease[] => {
     return data.map(item => ({
-        id: item.id ?? 0, // Provide a default value if id is undefined
+        id: item.id ?? 0,
         name: item.name
     }));
 };
@@ -21,6 +23,8 @@ const DiseaseList: React.FC = () => {
     const [diseases, setDiseases] = useAtom(diseaseAtom);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [editingDisease, setEditingDisease] = useState<Disease | null>(null);
+    const [showEditButton, setShowEditButton] = useState(true);
 
     useEffect(() => {
         const fetchDiseases = async () => {
@@ -42,11 +46,16 @@ const DiseaseList: React.FC = () => {
     }, [setDiseases]);
 
     const handleDiseaseAdded = (newDisease: Disease) => {
-        setDiseases([...diseases, newDisease]); // Add the new disease to the state
+        setDiseases([...diseases, newDisease]);
     };
 
     const handleDiseaseRemoved = (diseaseId: number) => {
         setDiseases(diseases.filter(disease => disease.id !== diseaseId));
+    };
+
+    const handleDiseaseUpdated = (updatedDisease: Disease) => {
+        setEditingDisease(null);
+        setDiseases(diseases.map(disease => disease.id === updatedDisease.id ? updatedDisease : disease));
     };
 
     if (loading) return <div>Loading...</div>;
@@ -58,12 +67,29 @@ const DiseaseList: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {diseases.map(disease => (
                     <div key={disease.id} className="card bg-base-200 shadow-md p-4 rounded-lg">
-                        <h2 className="text-xl font-semibold truncate">{disease.name}</h2>
-                        <RemoveDisease diseaseId={disease.id} onDiseaseRemoved={handleDiseaseRemoved} />
+                        {editingDisease && editingDisease.id === disease.id ? (
+                            <div>
+                                <UpdateDisease disease={disease} onDiseaseUpdated={handleDiseaseUpdated}/>
+                            </div>
+                        ) : (
+                            <>
+                                <h2 className="text-xl font-semibold truncate">{disease.name}</h2>
+                                <br/>
+                                <div className="flex justify-between">
+                                    {showEditButton && (
+                                        <button onClick={() => setEditingDisease(disease)}
+                                                className="btn btn-secondary">Edit
+                                        </button>
+                                    )}
+                                    <RemoveDisease diseaseId={disease.id} onDiseaseRemoved={handleDiseaseRemoved} onEditButtonVisibilityChange={setShowEditButton}/>
+                                </div>
+                            </>
+                        )}
                     </div>
                 ))}
             </div>
-            <AddDisease onDiseaseAdded={handleDiseaseAdded} />
+            <br/>
+            <AddDisease onDiseaseAdded={handleDiseaseAdded}/>
         </div>
     );
 };

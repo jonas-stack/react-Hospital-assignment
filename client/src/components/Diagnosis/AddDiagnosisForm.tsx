@@ -22,6 +22,7 @@ const AddDiagnosisForm: React.FC<AddDiagnosisFormProps> = ({ patientId, onDiagno
             >
                 {popupOpen ? "Cancel Adding Diagnosis" : "Add Diagnosis"}
             </button>
+            <br/>
             {popupOpen && (
                 <AddDiagnosisPopup
                     patientId={patientId}
