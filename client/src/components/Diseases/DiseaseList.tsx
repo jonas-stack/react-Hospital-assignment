@@ -3,6 +3,7 @@ import { apiClient } from "../../apiClient";
 import AddDisease from "./AddDisease.tsx";
 import { useAtom } from 'jotai';
 import { diseaseAtom } from '../../atoms/DiseaseAtom';
+import RemoveDisease from "./RemoveDisease.tsx";
 
 export interface Disease {
     id: number;
@@ -44,6 +45,10 @@ const DiseaseList: React.FC = () => {
         setDiseases([...diseases, newDisease]); // Add the new disease to the state
     };
 
+    const handleDiseaseRemoved = (diseaseId: number) => {
+        setDiseases(diseases.filter(disease => disease.id !== diseaseId));
+    };
+
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
@@ -54,6 +59,7 @@ const DiseaseList: React.FC = () => {
                 {diseases.map(disease => (
                     <div key={disease.id} className="card bg-base-200 shadow-md p-4 rounded-lg">
                         <h2 className="text-xl font-semibold truncate">{disease.name}</h2>
+                        <RemoveDisease diseaseId={disease.id} onDiseaseRemoved={handleDiseaseRemoved} />
                     </div>
                 ))}
             </div>

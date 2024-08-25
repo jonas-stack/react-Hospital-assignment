@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Api } from "../../Api.ts";
 import { useAtom } from 'jotai';
 import { ThemeAtom } from '../../atoms/ThemeAtom';
+import { apiClient } from '../../apiClient';
 
 interface Disease {
     id: number;
@@ -14,23 +14,29 @@ interface AddDiseaseProps {
 
 const AddDisease: React.FC<AddDiseaseProps> = ({ onDiseaseAdded }) => {
     const [name, setName] = useState('');
-    const [message, setMessage] = useState('');
+    const [isButtonDisabled, setIsButtonDisabled] = useState(true);
     const [theme] = useAtom(ThemeAtom);
+
+    const handleNameChange = (value: string) => {
+        setName(value);
+        setIsButtonDisabled(!value.trim());
+    };
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
         try {
-            const api = new Api();
-            const response = await api.diseases.diseasesCreate({ name });
-            const newDisease: Disease = {
-                id: response.data.id,
-                name: name,
-            };
-            onDiseaseAdded(newDisease);
-            setMessage('Disease created successfully!');
-            setName('');
+            const response = await apiClient.diseases.diseasesCreate({ name });
+            if ([200, 201].includes(response.status)) {
+                onDiseaseAdded({ id: response.data.id, name });
+                setName('');
+                setIsButtonDisabled(true);
+                alert('Disease created successfully!');
+            } else {
+                alert('Failed to create disease.');
+            }
         } catch (error) {
-            setMessage('Error creating disease.');
+            console.error('Error creating disease:', error);
+            alert('An error occurred while creating the disease.');
         }
     };
 
@@ -44,14 +50,19 @@ const AddDisease: React.FC<AddDiseaseProps> = ({ onDiseaseAdded }) => {
                         type="text"
                         id="name"
                         value={name}
-                        onChange={(e) => setName(e.target.value)}
+                        onChange={(e) => handleNameChange(e.target.value)}
                         required
-                        className="input input-bordered text-lg"
+                        className={`input input-bordered text-lg ${theme}`}
                     />
                 </div>
-                <button type="submit" className="btn btn-primary text-lg">Add Disease</button>
+                <button
+                    type="submit"
+                    disabled={isButtonDisabled}
+                    className="btn btn-primary text-lg"
+                >
+                    Add Disease
+                </button>
             </form>
-            {message && <p className="text-lg mt-4">{message}</p>}
         </div>
     );
 };
