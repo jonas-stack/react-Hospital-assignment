@@ -10,7 +10,7 @@ const AddDiagnosisForm: React.FC<AddDiagnosisFormProps> = ({ patientId, onDiagno
     const [popupOpen, setPopupOpen] = useState(false);
 
     return (
-        <>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
             <button
                 type="button"
                 className={`btn ${popupOpen ? "btn-danger" : "btn-primary"}`}
@@ -29,7 +29,7 @@ const AddDiagnosisForm: React.FC<AddDiagnosisFormProps> = ({ patientId, onDiagno
                     onDiagnosisAdded={onDiagnosisAdded}
                 />
             )}
-        </>
+        </div>
     );
 };
 

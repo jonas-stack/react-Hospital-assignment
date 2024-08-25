@@ -73,10 +73,6 @@ const PatientDetail: React.FC = () => {
                             {patient.id !== undefined && (
                                 <>
                                     <DiagnosisHistory patientId={patient.id} />
-                                    <AddDiagnosisForm
-                                        patientId={patient.id}
-                                        onDiagnosisAdded={handleDiagnosisAdded}
-                                    />
                                 </>
                             )}
                         </div>

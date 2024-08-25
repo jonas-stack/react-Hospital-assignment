@@ -1,68 +1,101 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
+import { useAtom } from "jotai";
 import { apiClient } from "../../apiClient";
-import { Diagnoses, Diseases } from "../../Api";
+import { diagnosesAtom } from "../../atoms/DiagnosesAtom";
+import AddDiagnosisForm from "./AddDiagnosisForm";
+import RemoveDiagnosis from "./RemoveDiagnosis";
 
 interface DiagnosisHistoryProps {
     patientId: number;
 }
 
 const DiagnosisHistory: React.FC<DiagnosisHistoryProps> = ({ patientId }) => {
-    const [diagnoses, setDiagnoses] = useState<Diagnoses[]>([]);
+    const [diagnoses, setDiagnoses] = useAtom(diagnosesAtom);
     const [diseases, setDiseases] = useState<{ [key: number]: string }>({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
+    const fetchDiagnoses = useCallback(async () => {
+        setLoading(true);
+        try {
+            const response = await apiClient.diagnoses.diagnosesList({
+                patient_id: `eq.${patientId}`,
+                select: "id,disease_id,diagnosis_date"
+            });
+            if (response.status !== 200) throw new Error("Failed to fetch diagnoses");
+
+            setDiagnoses(response.data);
+
+            const diseaseIds = response.data.map(d => d.disease_id);
+            const diseaseResponse = await apiClient.diseases.diseasesList({
+                id: `in.(${diseaseIds.join(",")})`,
+                select: "id,name"
+            });
+            if (diseaseResponse.status !== 200) throw new Error("Failed to fetch diseases");
+
+            const diseaseMap = diseaseResponse.data.reduce((acc, disease) => {
+                if (disease.id !== undefined) {
+                    acc[disease.id] = disease.name;
+                }
+                return acc;
+            }, {} as { [key: number]: string });
+
+            setDiseases(diseaseMap);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }, [patientId, setDiagnoses]);
+
     useEffect(() => {
-        const fetchDiagnoses = async () => {
-            try {
-                const response = await apiClient.diagnoses.diagnosesList({
-                    patient_id: `eq.${patientId}`,
-                    select: "disease_id,diagnosis_date"
-                });
-                if (response.status !== 200) throw new Error("Failed to fetch diagnoses");
-
-                setDiagnoses(response.data);
-                const diseaseIds = response.data.map(d => d.disease_id);
-                const diseaseResponse = await apiClient.diseases.diseasesList({
-                    id: `in.(${diseaseIds.join(",")})`,
-                    select: "id,name"
-                });
-                if (diseaseResponse.status !== 200) throw new Error("Failed to fetch diseases");
-
-                const diseaseMap = diseaseResponse.data.reduce((acc, disease) => {
-                    if (disease.id !== undefined) {
-                        acc[disease.id] = disease.name;
-                    }
-                    return acc;
-                }, {} as { [key: number]: string });
-                setDiseases(diseaseMap);
-            } catch (err: any) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
-
         fetchDiagnoses();
-    }, [patientId]);
+    }, [fetchDiagnoses]);
+
+    const handleDiagnosisAdded = () => {
+        fetchDiagnoses();
+    };
+
+    const handleRemoveDiagnosis = (diagnosisId: number) => {
+        setDiagnoses(diagnoses.filter(d => d.id !== diagnosisId));
+    };
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>{error}</div>;
 
     return (
         <div>
-            <h2>Diagnosis History</h2>
             {diagnoses.length > 0 ? (
-                <ul>
-                    {diagnoses.map((diagnosis) => (
-                        <li key={diagnosis.id}>
-                            Disease: {diseases[diagnosis.disease_id]}, Date: {diagnosis.diagnosis_date ? new Date(diagnosis.diagnosis_date).toLocaleDateString() : "Unknown Date"}
-                        </li>
+                <table className="table-auto w-full">
+                    <thead>
+                    <tr>
+                        <th className="px-4 py-2">Disease</th>
+                        <th className="px-4 py-2">Date</th>
+                        <th className="px-4 py-2">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {diagnoses.map(diagnosis => (
+                        <tr key={diagnosis.id}>
+                            <td className="border px-4 py-2">{diseases[diagnosis.disease_id]}</td>
+                            <td className="border px-4 py-2">
+                                {diagnosis.diagnosis_date ? new Date(diagnosis.diagnosis_date).toLocaleDateString() : "Unknown Date"}
+                            </td>
+                            <td className="border px-4 py-2">
+                                <RemoveDiagnosis
+                                    diagnosis={diagnosis}
+                                    setError={setError}
+                                />
+                            </td>
+                        </tr>
                     ))}
-                </ul>
+                    </tbody>
+                </table>
             ) : (
                 <p>No diagnoses found</p>
             )}
+            <br/>
+            <AddDiagnosisForm patientId={patientId} onDiagnosisAdded={handleDiagnosisAdded} />
         </div>
     );
 };
