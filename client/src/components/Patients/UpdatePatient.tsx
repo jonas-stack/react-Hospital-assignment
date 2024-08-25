@@ -68,6 +68,7 @@ const UpdatePatientForm: React.FC<UpdatePatientFormProps> = ({ patient }) => {
                     </button>
                 </div>
             </form>
+            <br/>
         </div>
     );
 };

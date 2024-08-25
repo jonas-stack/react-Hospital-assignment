@@ -30,11 +30,13 @@ const DiagnosisHistory: React.FC<DiagnosisHistoryProps> = ({ patientId }) => {
                 if (diseaseResponse.status !== 200) throw new Error("Failed to fetch diseases");
 
                 const diseaseMap = diseaseResponse.data.reduce((acc, disease) => {
-                    acc[disease.id] = disease.name;
+                    if (disease.id !== undefined) {
+                        acc[disease.id] = disease.name;
+                    }
                     return acc;
-                }, {});
+                }, {} as { [key: number]: string });
                 setDiseases(diseaseMap);
-            } catch (err) {
+            } catch (err: any) {
                 setError(err.message);
             } finally {
                 setLoading(false);

@@ -4,13 +4,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { apiClient } from "../../apiClient";
 import { Patients } from "../../Api";
-import UpdatePatientForm from "./UpdatePatient";
 import { patientsAtom } from "../../atoms/PatientsAtom";
 import Card from "../Utilities/Cards";
-import RemovePatient from "./RemovePatient";
 import { ThemeAtom } from "../../atoms/ThemeAtom";
 import DiagnosisHistory from "../Diagnosis/DiagnosisHistory.tsx";
-import AddDiagnosisForm from "../Diagnosis/AddDiagnosisForm"; // Fixed import path
+import AddDiagnosisForm from "../Diagnosis/AddDiagnosisForm";
+import PatientActions from "./PatientActions"; // Import the new component
 
 const PatientDetail: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,16 +17,12 @@ const PatientDetail: React.FC = () => {
     const [patient, setPatient] = useState<Patients | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
-    const [menuOpen, setMenuOpen] = useState(false);
-    const [theme] = useAtom(ThemeAtom);
     const navigate = useNavigate();
 
-    // Function to handle adding a diagnosis
     const handleDiagnosisAdded = () => {
-        fetchPatient(); // Refresh patient data after adding diagnosis
+        fetchPatient();
     };
 
-    // Function to fetch patient data
     const fetchPatient = async () => {
         if (!id) {
             setError("No patient ID provided");
@@ -49,12 +44,10 @@ const PatientDetail: React.FC = () => {
         }
     };
 
-    // Fetch patient data on component mount or when ID changes
     useEffect(() => {
         fetchPatient();
     }, [id]);
 
-    // Update patient data if it changes in global state
     useEffect(() => {
         if (id) {
             const updatedPatient = patients.find(p => p.id === parseInt(id));
@@ -71,26 +64,7 @@ const PatientDetail: React.FC = () => {
     return (
         <div className="flex flex-col gap-4 p-4">
             <Card
-                title={
-                    <div className="flex justify-between items-center w-full">
-                        <span className="flex-1">Patient Details</span>
-                        <div className="relative ml-4">
-                            <button
-                                onClick={() => setMenuOpen(!menuOpen)}
-                                className={`btn btn-secondary ${theme || ''}`} // Fixed theme conditional check
-                                data-theme={theme}
-                            >
-                                &#x22EE; {/* Ensure this is the desired icon */}
-                            </button>
-                            {menuOpen && (
-                                <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-lg flex flex-col gap-2">
-                                    <UpdatePatientForm patient={patient} />
-                                    <RemovePatient patient={patient} />
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                }
+                title="Patient Details"
                 content={
                     <div className="flex flex-col gap-4 p-4">
                         <p><strong>Name:</strong> {patient.name}</p>
@@ -108,6 +82,7 @@ const PatientDetail: React.FC = () => {
                         </div>
                     </div>
                 }
+                actions={<PatientActions patient={patient} />}
             />
         </div>
     );
